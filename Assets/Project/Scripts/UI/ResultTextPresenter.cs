@@ -15,17 +15,20 @@ namespace Project.UI
 		private float showResultsDelay = 0.5f;
 		private float resetResultsDelay = 2f;
 
-        public ResultTextPresenter(TMP_Text text)
+		public delegate void ResetEventHandler(object source, EventArgs args);
+		public event ResetEventHandler ResetEvent;
+
+		public ResultTextPresenter(TMP_Text text)
         {
 			this.textLabel = text;
 			defaultLabel = textLabel.text;
-
 		}
 
 		public async void HandleDisplayResults(object sender, OutcomeDeterminedEventArgs args)
 		{
 			await WaitThenAction(ChangeResult, args.outcomeMessage, showResultsDelay);
 			await WaitThenAction(ChangeResult, defaultLabel, resetResultsDelay);
+			ResetEvent?.Invoke(this, new EventArgs());
 		}
 
 		IObservable<Unit> WaitThenAction(Action<string> action, string result, float delay)

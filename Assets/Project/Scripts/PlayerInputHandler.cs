@@ -37,6 +37,18 @@ public class PlayerInputHandler : MonoBehaviour
 	void Start()
     {
 		gameObject.UpdateAsObservable().Where(_ => Input.GetKeyDown(KeyCode.Return)).Subscribe(_ => HandleInput());
+		Observable.FromEvent<ResultTextPresenter.ResetEventHandler, EventArgs>(
+			   h => (sender, e) => h(e), 
+			   h => resultTextPresenter.ResetEvent += playerSymbolPresenter.HandleResetEvent, 
+			   h => resultTextPresenter.ResetEvent -= playerSymbolPresenter.HandleResetEvent)
+		   .Subscribe()
+		   .AddTo(disposables);
+		Observable.FromEvent<ResultTextPresenter.ResetEventHandler, EventArgs>(
+			   h => (sender, e) => h(e),
+			   h => resultTextPresenter.ResetEvent += opponentSymbolPresenter.HandleResetEvent,
+			   h => resultTextPresenter.ResetEvent -= opponentSymbolPresenter.HandleResetEvent)
+		   .Subscribe()
+		   .AddTo(disposables);
 	}
 
 	void LogInput()
@@ -75,6 +87,11 @@ public class PlayerInputHandler : MonoBehaviour
 		var aiSymbolOutcome = SymbolOutcomeFactory.Create(aiResult);
 		playerSymbolOutcome.OutcomeDetermined += resultTextPresenter.HandleDisplayResults;
 		playerSymbolOutcome.DetermineOutcome(aiSymbolOutcome);
+	}
+
+	void OnDestroy()
+	{
+		disposables.Dispose();	
 	}
 
 }

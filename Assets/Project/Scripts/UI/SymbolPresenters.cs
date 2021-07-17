@@ -11,11 +11,13 @@ namespace Project.UI
     public abstract class SymbolPresenter
     {
 		private Image image;
+		private Sprite defaultSprite;
 		private readonly Sprite [] sprites;
 
         protected SymbolPresenter(Image image, Sprite [] sprites)
         {
 			this.image = image;
+			defaultSprite = image.sprite;
 			this.sprites = sprites;
         }
 
@@ -26,7 +28,12 @@ namespace Project.UI
 				image.sprite = sprites[index];
 			}
 		}
-    }
+
+		public void HandleResetEvent(object sender, EventArgs args)
+		{
+			image.sprite = defaultSprite;
+		}
+	}
 
     [UsedImplicitly]
     public sealed class PlayerSymbolPresenter : SymbolPresenter
