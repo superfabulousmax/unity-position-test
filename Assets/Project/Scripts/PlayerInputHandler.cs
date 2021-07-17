@@ -6,7 +6,6 @@ using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 using Zenject;
-using UniRx;
 
 public class PlayerInputHandler : MonoBehaviour
 {
@@ -21,6 +20,9 @@ public class PlayerInputHandler : MonoBehaviour
 
 	[Inject]
 	private OpponentSymbolPresenter opponentSymbolPresenter;
+
+	[Inject]
+	private SymbolOutcomeFactory SymbolOutcomeFactory;
 
 	private int countDownValue = 3;
 
@@ -52,10 +54,19 @@ public class PlayerInputHandler : MonoBehaviour
 			.TakeWhile(x => x <= countDownValue)
 			.ForEachAsync(x => { countdownPresenter.SetCountDownText(countDownValue - x); })
 			.ToYieldInstruction();
-		var index = validInputs.IndexOf(input);
-		playerSymbolPresenter.ChangeImage((uint)index);
-		opponentSymbolPresenter.GenerateRandomSymbol();
+		HandleResults(input);
 		inputPresenter.EnableInput();
 
+	}
+
+	async void HandleResults(string input)
+	{
+		var playerResult = (uint)validInputs.IndexOf(input);
+		var aiResult = await opponentSymbolPresenter.GenerateRandomSymbol().Preserve();
+		playerSymbolPresenter.ChangeImage(playerResult);
+		opponentSymbolPresenter.ChangeImage(aiResult);
+		var playerSymbolOutcome = SymbolOutcomeFactory.Create(playerResult);
+		var aiSymbolOutcome = SymbolOutcomeFactory.Create(aiResult);
+		playerSymbolOutcome.DetermineOutcome(aiSymbolOutcome);
 	}
 }

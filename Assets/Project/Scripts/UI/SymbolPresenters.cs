@@ -2,7 +2,9 @@
 using System;
 using UniRx;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
+using Cysharp.Threading.Tasks;
 
 namespace Project.UI
 {
@@ -41,12 +43,12 @@ namespace Project.UI
         {
         }
 
-		public void GenerateRandomSymbol()
+		public async UniTask<uint> GenerateRandomSymbol()
 		{
-			ObservableWWW.Get("http://www.randomnumberapi.com/api/v1.0/random?min=0&max=2&count=1")
-			.Subscribe(
-				x => ChangeImage(Convert.ToUInt32(x.Substring(1, x.Length - 2))), // onSuccess
-				ex => Debug.LogException(ex)); // onError
+			var request = UnityWebRequest.Get("http://www.randomnumberapi.com/api/v1.0/random?min=0&max=2&count=1");
+			var response = await request.SendWebRequest();
+			var text = response.downloadHandler.text;
+			return Convert.ToUInt32(text.Substring(1, text.Length - 2));
 		}
 
 
