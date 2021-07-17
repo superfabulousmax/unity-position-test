@@ -47,6 +47,7 @@ public class PlayerInputHandler : MonoBehaviour
 
 	IEnumerator WaitThenDisplay(string input)
 	{
+		inputPresenter.DisableInput();
 		yield return Observable.Timer(TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(1), Scheduler.MainThreadIgnoreTimeScale)
 			.TakeWhile(x => x <= countDownValue)
 			.ForEachAsync(x => { countdownPresenter.SetCountDownText(countDownValue - x); })
@@ -54,6 +55,7 @@ public class PlayerInputHandler : MonoBehaviour
 		var index = validInputs.IndexOf(input);
 		playerSymbolPresenter.ChangeImage((uint)index);
 		opponentSymbolPresenter.GenerateRandomSymbol();
+		inputPresenter.EnableInput();
 
 	}
 }

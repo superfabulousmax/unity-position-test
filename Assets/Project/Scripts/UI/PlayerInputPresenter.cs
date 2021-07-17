@@ -16,6 +16,9 @@ namespace Project.UI
 			inputField = field;
 		}
 
+		public void DisableInput() => inputField.enabled = false;
+		public void EnableInput() => inputField.enabled = true;
+
 		public void DisplayInput() => Debug.Log(inputField.text);
 
 		public string GetInput() => inputField.text;
