@@ -16,6 +16,11 @@ namespace Project.UI
 			inputField = field;
 		}
 
+		public void HandleResetEvent(object sender, EventArgs args)
+		{
+			inputField.text = default;
+		}
+
 		public void DisableInput() => inputField.enabled = false;
 		public void EnableInput() => inputField.enabled = true;
 

@@ -49,6 +49,12 @@ public class PlayerInputHandler : MonoBehaviour
 			   h => resultTextPresenter.ResetEvent -= opponentSymbolPresenter.HandleResetEvent)
 		   .Subscribe()
 		   .AddTo(disposables);
+		Observable.FromEvent<ResultTextPresenter.ResetEventHandler, EventArgs>(
+			   h => (sender, e) => h(e),
+			   h => resultTextPresenter.ResetEvent += inputPresenter.HandleResetEvent,
+			   h => resultTextPresenter.ResetEvent -= inputPresenter.HandleResetEvent)
+		   .Subscribe()
+		   .AddTo(disposables);
 	}
 
 	void LogInput()
