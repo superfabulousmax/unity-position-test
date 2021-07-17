@@ -22,16 +22,22 @@ public class PlayerInputHandler : MonoBehaviour
 	private OpponentSymbolPresenter opponentSymbolPresenter;
 
 	[Inject]
+	private ResultTextPresenter resultTextPresenter;
+
+	[Inject]
 	private SymbolOutcomeFactory SymbolOutcomeFactory;
 
 	private int countDownValue = 3;
 
 	private List<string> validInputs = new List<string>{ "rock", "paper", "scissors" };
+	private CompositeDisposable disposables = new CompositeDisposable();
 
-    void Start()
+	public EventHandler<SymbolOutcomeCalculator.OutcomeDeterminedEventArgs> DisplayOutcome { get; private set; }
+
+	void Start()
     {
 		gameObject.UpdateAsObservable().Where(_ => Input.GetKeyDown(KeyCode.Return)).Subscribe(_ => HandleInput());
-    }
+	}
 
 	void LogInput()
 	{
@@ -67,6 +73,8 @@ public class PlayerInputHandler : MonoBehaviour
 		opponentSymbolPresenter.ChangeImage(aiResult);
 		var playerSymbolOutcome = SymbolOutcomeFactory.Create(playerResult);
 		var aiSymbolOutcome = SymbolOutcomeFactory.Create(aiResult);
+		playerSymbolOutcome.OutcomeDetermined += resultTextPresenter.HandleDisplayResults;
 		playerSymbolOutcome.DetermineOutcome(aiSymbolOutcome);
 	}
+
 }
