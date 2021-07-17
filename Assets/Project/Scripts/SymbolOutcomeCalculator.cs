@@ -26,23 +26,18 @@ public abstract class SymbolOutcomeCalculator
 	public virtual void DetermineOutcome(SymbolOutcomeCalculator other)
 	{
 		var message = "";
+
 		if(other.id == id)
 		{
-			// send draw
 			message = "Tie!";
-			Debug.Log("Draw");
 		}
 		else if(winOutcomes.Contains(other.id))
 		{
-			// send win
 			message = "Player Win!";
-			Debug.Log("Win");
 		}
 		else
 		{
-			// send loss
 			message = "AI Win!";
-			Debug.Log("Loss");
 		}
 
 		OutcomeDetermined?.Invoke(this, new OutcomeDeterminedEventArgs { outcomeMessage = message });
