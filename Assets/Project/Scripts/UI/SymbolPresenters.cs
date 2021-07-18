@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Project.UI
 {
@@ -14,7 +15,19 @@ namespace Project.UI
 		private Sprite defaultSprite;
 		private readonly Sprite [] sprites;
 
-        protected SymbolPresenter(Image image, Sprite [] sprites)
+		public Image Image { get => image; }
+
+		private List<string> validInputs = new List<string> { "rock", "paper", "scissors" };
+
+		public IEnumerable<string> GetValidInputs()
+		{
+			foreach (var input in validInputs)
+			{
+				yield return input;
+			}
+		}
+
+		protected SymbolPresenter(Image image, Sprite [] sprites)
         {
 			this.image = image;
 			defaultSprite = image.sprite;

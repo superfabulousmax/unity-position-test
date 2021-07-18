@@ -2,6 +2,7 @@ using Project.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -29,8 +30,9 @@ public class PlayerInputHandler : MonoBehaviour
 
 	private int countDownValue = 3;
 
-	private List<string> validInputs = new List<string>{ "rock", "paper", "scissors" };
 	private CompositeDisposable disposables = new CompositeDisposable();
+
+	private IReadOnlyList<string> validInputs;
 
 	public EventHandler<SymbolOutcomeCalculator.OutcomeDeterminedEventArgs> DisplayOutcome { get; private set; }
 
@@ -55,6 +57,7 @@ public class PlayerInputHandler : MonoBehaviour
 			   h => resultTextPresenter.ResetEvent -= inputPresenter.HandleResetEvent)
 		   .Subscribe()
 		   .AddTo(disposables);
+		validInputs = playerSymbolPresenter.GetValidInputs().ToList();
 	}
 
 	void LogInput()
@@ -65,7 +68,7 @@ public class PlayerInputHandler : MonoBehaviour
 	void HandleInput()
 	{
 		var input = inputPresenter.GetInput().ToLower().Trim();
-		if (validInputs.Contains(input))
+		if (validInputs.ToList().Contains(input))
 		{
 			StartCoroutine(WaitThenDisplay(input));
 		}
@@ -85,7 +88,7 @@ public class PlayerInputHandler : MonoBehaviour
 
 	async void HandleResults(string input)
 	{
-		var playerResult = (uint)validInputs.IndexOf(input);
+		var playerResult = (uint)validInputs.ToList().IndexOf(input);
 		var aiResult = await opponentSymbolPresenter.GenerateRandomSymbol().Preserve();
 		playerSymbolPresenter.ChangeImage(playerResult);
 		opponentSymbolPresenter.ChangeImage(aiResult);
