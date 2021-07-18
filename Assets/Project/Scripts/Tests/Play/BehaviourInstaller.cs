@@ -1,8 +1,10 @@
+using JetBrains.Annotations;
 using Zenject;
 
-namespace Project.Behaviour
+namespace Project.Tests.Play
 {
-	internal sealed class BehaviourInstaller : MonoInstaller<BehaviourInstaller>
+	[UsedImplicitly]
+	internal sealed class BehaviourInstaller : Installer<BehaviourInstaller>
 	{
 		// Set up dependencies
 		public override void InstallBindings()
