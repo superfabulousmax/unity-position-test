@@ -28,58 +28,52 @@ namespace Project.Tests.Play
 		[Test]
 		public void TestRockSpriteNotNull()
 		{
-			var name = "rock";
-			var rockSprite = Resources.Load<Sprite>($"Images/{name}");
-			Assert.False(rockSprite == null, $"Test that {name} sprite is not null");
+			TestSpriteNotNull("rock");
 		}
 
 		[Test]
 		public void TestPaperSpriteNotNull()
 		{
-			var name = "paper";
-			var paperSprite = Resources.Load<Sprite>($"Images/{name}");
-			Assert.False(paperSprite == null, $"Test that {name} sprite is not null");
+			TestSpriteNotNull("paper");
 		}
 
 		[Test]
 		public void TestScissorsSpriteNotNull()
 		{
-			var name = "scissors";
-			var scissorsSprite = Resources.Load<Sprite>($"Images/{name}");
-			Assert.False(scissorsSprite == null, $"Test that {name} sprite is not null");
+			TestSpriteNotNull("scissors");
+		}
+
+		public void TestSpriteNotNull(string input)
+		{
+			var sprite = Resources.Load<Sprite>($"Images/{input}");
+			Assert.False(sprite == null, $"Test that {input} sprite is not null");
 		}
 
 		[Test]
 		public void TestRockInputReturnsCorrectSymbol()
 		{
-			var name = "rock";
-			var rockSprite = Resources.Load<Sprite>($"Images/{name}");
-			var index = (uint)playerSymbolPresenter.GetValidInputs().ToList().IndexOf(name);
-			playerSymbolPresenter.ChangeImage(index);
-			Assert.True(playerSymbolPresenter.Image.sprite != null);
-			Assert.That(playerSymbolPresenter.Image.sprite, Is.EqualTo(rockSprite));
+			TestInputCorrect("rock");
 		}
 
 		[Test]
 		public void TestPaperInputReturnsCorrectSymbol()
 		{
-			var name = "paper";
-			var paperSprite = Resources.Load<Sprite>($"Images/{name}");
-			var index = (uint)playerSymbolPresenter.GetValidInputs().ToList().IndexOf(name);
-			playerSymbolPresenter.ChangeImage(index);
-			Assert.True(playerSymbolPresenter.Image.sprite != null);
-			Assert.That(playerSymbolPresenter.Image.sprite, Is.EqualTo(paperSprite));
+			TestInputCorrect("paper");
 		}
 
 		[Test]
 		public void TestScissorsInputReturnsCorrectSymbol()
 		{
-			var name = "scissors";
-			var scissorsSprite = Resources.Load<Sprite>($"Images/{name}");
-			var index = (uint)playerSymbolPresenter.GetValidInputs().ToList().IndexOf(name);
+			TestInputCorrect("scissors");
+		}
+
+		public void TestInputCorrect(string input)
+		{
+			var sprite = Resources.Load<Sprite>($"Images/{input}");
+			var index = (uint)playerSymbolPresenter.GetValidInputs().ToList().IndexOf(input);
 			playerSymbolPresenter.ChangeImage(index);
 			Assert.True(playerSymbolPresenter.Image.sprite != null);
-			Assert.That(playerSymbolPresenter.Image.sprite, Is.EqualTo(scissorsSprite));
+			Assert.That(playerSymbolPresenter.Image.sprite, Is.EqualTo(sprite));
 		}
 	}
 }
