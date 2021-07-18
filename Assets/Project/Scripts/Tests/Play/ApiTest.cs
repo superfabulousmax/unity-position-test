@@ -22,6 +22,10 @@ namespace Project.Tests.Play
 		[Test]
 		public async void TestRandomApi()
 		{
+			// There is no way to seed the api manually in order to
+			// test that it returns an expected value.
+			// Instead I decided to test an arbitray large number of times
+			// that the result falls into the expected results range
 			List<uint> expectedResults = new List<uint>() { 0, 1, 2 };
 
 			for(int i = 0; i < 100; ++i)
