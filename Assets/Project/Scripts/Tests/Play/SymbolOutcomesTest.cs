@@ -98,7 +98,6 @@ namespace Project.Tests.Play
 			TestVersus(Symbols.Scissors, Symbols.Scissors, "Tie!");
 		}
 
-
 		public void TestVersus(Symbols symbol1, Symbols symbol2, string message)
 		{
 			var outcomeCalculator1 = symbolOutcomeFactory.Create((uint)symbol1);

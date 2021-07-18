@@ -59,13 +59,15 @@ namespace Project.UI
     [UsedImplicitly]
     public sealed class OpponentSymbolPresenter : SymbolPresenter
     {
-        public OpponentSymbolPresenter(Image image, Sprite [] sprites) : base(image, sprites)
+		private readonly string api = "http://www.randomnumberapi.com/api/v1.0/random?min=0&max=2&count=1";
+
+		public OpponentSymbolPresenter(Image image, Sprite [] sprites) : base(image, sprites)
         {
         }
 
 		public async UniTask<uint> GenerateRandomSymbol()
 		{
-			var request = UnityWebRequest.Get("http://www.randomnumberapi.com/api/v1.0/random?min=0&max=2&count=1");
+			var request = UnityWebRequest.Get(api);
 			var response = await request.SendWebRequest();
 			var text = response.downloadHandler.text;
 			return Convert.ToUInt32(text.Substring(1, text.Length - 2));
