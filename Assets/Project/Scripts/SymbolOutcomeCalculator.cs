@@ -1,8 +1,5 @@
-using Project.UI;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
-using Zenject;
 
 public abstract class SymbolOutcomeCalculator
 {

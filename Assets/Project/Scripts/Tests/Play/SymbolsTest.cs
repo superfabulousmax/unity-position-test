@@ -8,13 +8,8 @@ namespace Project.Tests.Play
 {
 	internal sealed class SymbolsTest : ZenjectIntegrationTestFixture
 	{
-		[Inject] private PlayerInputPresenter playerInputPresenter;
-
-		[Inject] private PlayerSymbolPresenter playerSymbolPresenter;
-		[Inject] private OpponentSymbolPresenter opponentSymbolPresenter;
-
-		[Inject] private CountdownPresenter countdownPresenter;
-		[Inject] private ResultTextPresenter resultPresenter;
+		[Inject]
+		private PlayerSymbolPresenter playerSymbolPresenter;
 
 		[SetUp]
 		public void CommonInstall()

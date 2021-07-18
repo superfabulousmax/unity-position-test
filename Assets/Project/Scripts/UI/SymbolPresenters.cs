@@ -70,7 +70,5 @@ namespace Project.UI
 			var text = response.downloadHandler.text;
 			return Convert.ToUInt32(text.Substring(1, text.Length - 2));
 		}
-
-
     }
 }
